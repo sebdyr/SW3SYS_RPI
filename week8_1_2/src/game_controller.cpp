@@ -12,7 +12,7 @@ void GameController::gameControllerThread() {
 
         std::unique_lock<std::mutex> lock(game->gameMutex);
         // Wait for enemy or bullet for max 125 ms
-        game->cv.wait_for(lock, std::chrono::milliseconds(125));
+        game->cv.wait_for(lock, std::chrono::milliseconds(25));
 
         // Wait for enemy or bullet
         //game->cv.wait(lock);
@@ -42,10 +42,10 @@ void GameController::gameControllerThread() {
         }
 
         //Game over condition
-        // for (auto &e : game->enemies) {
-        //     if (e.x <= 0) {
-        //         game->running = false;
-        //     }
-        // }
+        for (auto &e : game->enemies) {
+            if (e.x <= 0) {
+                game->running = false;
+            }
+        }
     }
 }

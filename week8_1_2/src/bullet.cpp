@@ -22,7 +22,7 @@ void Bullet::bulletInputThread()
          *
          * If button is held down, only one shot must be fired!
          */
-        std::unique_lock<std::mutex> lock(bulletThreadLock_);
+        std::unique_lock<std::mutex> lock(game->gameMutex);
 
         game->shootButton_cv.wait(lock, [&]
                                   { return game->shootButtonLeft_flag || game->shootButtonRight_flag; });
@@ -40,7 +40,7 @@ void Bullet::bulletUpdateThread()
         // Running at fixed speed (bullet movement)
         std::this_thread::sleep_for(std::chrono::milliseconds(25));
         {
-            std::unique_lock<std::mutex> lock(bulletThreadLock_);
+            std::unique_lock<std::mutex> lock(game->gameMutex);
 
             for (auto b = game->bullets.begin(); b != game->bullets.end();)
             {

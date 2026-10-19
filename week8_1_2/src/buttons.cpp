@@ -176,12 +176,18 @@ void Buttons::readGPIOs()
 
     if (data_in.values[0] == 0 && buttonLeft_last == 1)
     {
+        {
+        std::lock_guard<std::mutex> lock(game->gameMutex);
         game->shootButtonLeft_flag = true;
+        }
         game->shootButton_cv.notify_one(); // signalere til vores bullet_input_thread, at knappen er trykket
     }
     else if (data_in.values[1] == 0 && buttonRight_last == 1)
     {
+        {
+        std::lock_guard<std::mutex> lock(game->gameMutex);
         game->shootButtonRight_flag = true;
+        }
         game->shootButton_cv.notify_one(); // signalere til vores bullet_input_thread, at knappen er trykket
     }
 }

@@ -12,5 +12,5 @@ public:
 private:
     GameState *game;
     Buttons *buttons;
-    std::mutex bulletThreadLock_;
+
 };
